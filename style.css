@@ -1,0 +1,313 @@
+@keyframes move-gradients {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0) scale(1);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0) scale(1);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0) scale(1);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0) scale(1);
+    }
+}
+
+.shake {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+:root {
+    --bg-color: #f3e8ff;
+    --bg-gradient-1: #ffd1dc;
+    --bg-gradient-2: #c1e1ff;
+    --window-bg: rgba(255, 255, 255, 0.7);
+    --window-border: rgba(255, 255, 255, 1);
+    --text-color: #4B5563;
+    --text-color-bold: #333;
+    --header-main-bg: #ffc2d1;
+    --header-about-bg: #c8e6c9;
+    --header-projects-bg: #ffe0b2;
+    --header-contact-bg: #b3e5fc;
+    --accent-about: #4caf50;
+    --accent-projects: #ff9800;
+    --accent-contact: #03a9f4;
+    --project-card-bg: rgba(255, 255, 255, 0.5);
+    --toggle-bg: #e0d1f1;
+    --toggle-icon-color: #f9a825;
+    /* Sun color */
+    --scrollbar-track-bg: rgba(0, 0, 0, 0.05);
+    --scrollbar-thumb-bg: rgba(0, 0, 0, 0.2);
+    --scrollbar-thumb-hover-bg: rgba(0, 0, 0, 0.3);
+}
+
+html.dark {
+    --bg-color: #1a1a2e;
+    --bg-gradient-1: #162447;
+    --bg-gradient-2: #1f4068;
+    --window-bg: rgba(42, 42, 62, 0.7);
+    --window-border: rgba(255, 255, 255, 0.2);
+    --text-color: #e0e0e0;
+    --text-color-bold: #ffffff;
+    --header-main-bg: #3e325a;
+    --header-about-bg: #2c4a3b;
+    --header-projects-bg: #5a4a32;
+    --header-contact-bg: #324a5a;
+    --accent-about: #81c784;
+    --accent-projects: #ffb74d;
+    --accent-contact: #4fc3f7;
+    --project-card-bg: rgba(255, 255, 255, 0.1);
+    --toggle-bg: #2a2a3e;
+    --toggle-icon-color: #f0e68c;
+    /* Moon color */
+    --scrollbar-track-bg: rgba(255, 255, 255, 0.1);
+    --scrollbar-thumb-bg: rgba(255, 255, 255, 0.3);
+    --scrollbar-thumb-hover-bg: rgba(255, 255, 255, 0.5);
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-color);
+    background-image:
+        radial-gradient(circle at 15% 50%, var(--bg-gradient-1), transparent 35%),
+        radial-gradient(circle at 85% 40%, var(--bg-gradient-2), transparent 40%);
+    background-size: 200% 200%;
+    animation: move-gradients 20s ease-in-out infinite;
+    overflow: hidden;
+    cursor: default;
+    color: var(--text-color);
+    transition: background-color 0.4s ease;
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: var(--toggle-bg);
+    border: 1px solid var(--window-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.theme-toggle i {
+    font-size: 2rem;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    position: absolute;
+    color: var(--toggle-icon-color);
+}
+
+#sun-icon {
+    transform: translateY(0%) rotate(0deg);
+    opacity: 1;
+}
+
+#moon-icon {
+    transform: translateY(150%) rotate(45deg);
+    opacity: 0;
+}
+
+html.dark #sun-icon {
+    transform: translateY(-150%) rotate(-45deg);
+    opacity: 0;
+}
+
+html.dark #moon-icon {
+    transform: translateY(0%) rotate(0deg);
+    opacity: 1;
+}
+
+.window {
+    position: absolute;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    background-color: var(--window-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--window-border);
+    resize: both;
+    overflow: hidden;
+    min-width: 300px;
+    min-height: 200px;
+    transform-origin: center;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#main-window {
+    resize: none;
+}
+
+#main-window .window-header {
+    cursor: default;
+}
+
+.window.open {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.window.closing {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.window-header {
+    padding: 0.5rem 1rem;
+    color: var(--text-color-bold);
+    font-weight: 700;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--header-main-bg);
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.window[data-theme="about"] .window-header {
+    background-color: var(--header-about-bg);
+}
+
+.window[data-theme="projects"] .window-header {
+    background-color: var(--header-projects-bg);
+}
+
+.window[data-theme="contact"] .window-header {
+    background-color: var(--header-contact-bg);
+}
+
+.accent {
+    transition: color 0.4s ease;
+}
+
+.window[data-theme="about"] .accent {
+    color: var(--accent-about);
+}
+
+.window[data-theme="projects"] .accent {
+    color: var(--accent-projects);
+}
+
+.window[data-theme="contact"] .accent {
+    color: var(--accent-contact);
+}
+
+.project-card {
+    background-color: var(--project-card-bg);
+    transition: background-color 0.4s ease;
+}
+
+.window-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control-btn {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.close-btn {
+    background-color: #ff8989;
+}
+
+.close-btn:hover {
+    background-color: #ff6f6f;
+}
+
+.close-btn svg {
+    stroke: #4a0e0e;
+    transition: transform 0.2s;
+}
+
+.close-btn:hover svg {
+    transform: rotate(90deg);
+}
+
+.window-body {
+    padding: 1rem;
+    height: calc(100% - 2.75rem);
+    overflow-y: auto;
+    color: var(--text-color);
+    transition: color 0.4s ease;
+}
+
+/* Themed Scrollbar */
+.window-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.window-body::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg);
+    border-radius: 10px;
+}
+
+.window-body::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-bg);
+    border-radius: 10px;
+}
+
+.window-body::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-bg);
+}
+
+#main-window .icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+}
+
+#main-window .icon i {
+    font-size: 52px;
+    line-height: 1;
+}
+
+#main-window .icon p {
+    color: var(--text-color-bold);
+    transition: color 0.4s ease;
+}

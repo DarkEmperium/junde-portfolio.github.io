@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,218 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Boxicons CDN -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <style>
-        @keyframes move-gradients {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes shake {
-          10%, 90% { transform: translate3d(-1px, 0, 0) scale(1); }
-          20%, 80% { transform: translate3d(2px, 0, 0) scale(1); }
-          30%, 50%, 70% { transform: translate3d(-4px, 0, 0) scale(1); }
-          40%, 60% { transform: translate3d(4px, 0, 0) scale(1); }
-        }
-        .shake {
-            animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-        }
-
-        :root {
-            --bg-color: #f3e8ff;
-            --bg-gradient-1: #ffd1dc;
-            --bg-gradient-2: #c1e1ff;
-            --window-bg: rgba(255, 255, 255, 0.7);
-            --window-border: rgba(255, 255, 255, 1);
-            --text-color: #4B5563;
-            --text-color-bold: #333;
-            --header-main-bg: #ffc2d1;
-            --header-about-bg: #c8e6c9;
-            --header-projects-bg: #ffe0b2;
-            --header-contact-bg: #b3e5fc;
-            --accent-about: #4caf50;
-            --accent-projects: #ff9800;
-            --accent-contact: #03a9f4;
-            --project-card-bg: rgba(255, 255, 255, 0.5);
-            --toggle-bg: #e0d1f1;
-            --toggle-icon-color: #f9a825; /* Sun color */
-            --scrollbar-track-bg: rgba(0,0,0,0.05);
-            --scrollbar-thumb-bg: rgba(0,0,0,0.2);
-            --scrollbar-thumb-hover-bg: rgba(0,0,0,0.3);
-        }
-
-        html.dark {
-            --bg-color: #1a1a2e;
-            --bg-gradient-1: #162447;
-            --bg-gradient-2: #1f4068;
-            --window-bg: rgba(42, 42, 62, 0.7);
-            --window-border: rgba(255, 255, 255, 0.2);
-            --text-color: #e0e0e0;
-            --text-color-bold: #ffffff;
-            --header-main-bg: #3e325a;
-            --header-about-bg: #2c4a3b;
-            --header-projects-bg: #5a4a32;
-            --header-contact-bg: #324a5a;
-            --accent-about: #81c784;
-            --accent-projects: #ffb74d;
-            --accent-contact: #4fc3f7;
-            --project-card-bg: rgba(255, 255, 255, 0.1);
-            --toggle-bg: #2a2a3e;
-            --toggle-icon-color: #f0e68c; /* Moon color */
-            --scrollbar-track-bg: rgba(255, 255, 255, 0.1);
-            --scrollbar-thumb-bg: rgba(255, 255, 255, 0.3);
-            --scrollbar-thumb-hover-bg: rgba(255, 255, 255, 0.5);
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 15% 50%, var(--bg-gradient-1), transparent 35%),
-                radial-gradient(circle at 85% 40%, var(--bg-gradient-2), transparent 40%);
-            background-size: 200% 200%;
-            animation: move-gradients 20s ease-in-out infinite;
-            overflow: hidden;
-            cursor: default;
-            color: var(--text-color);
-            transition: background-color 0.4s ease;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background-color: var(--toggle-bg);
-            border: 1px solid var(--window-border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            transition: all 0.4s ease;
-            overflow: hidden;
-        }
-        .theme-toggle:hover { transform: scale(1.1) rotate(10deg); }
-        .theme-toggle i {
-            font-size: 2rem;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            position: absolute;
-            color: var(--toggle-icon-color);
-        }
-        
-        #sun-icon { transform: translateY(0%) rotate(0deg); opacity: 1; }
-        #moon-icon { transform: translateY(150%) rotate(45deg); opacity: 0; }
-
-        html.dark #sun-icon { transform: translateY(-150%) rotate(-45deg); opacity: 0; }
-        html.dark #moon-icon { transform: translateY(0%) rotate(0deg); opacity: 1; }
-
-        .window {
-            position: absolute;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            background-color: var(--window-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--window-border);
-            resize: both;
-            overflow: hidden;
-            min-width: 300px;
-            min-height: 200px;
-            transform-origin: center;
-            opacity: 0;
-            transform: scale(0.7);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        #main-window { resize: none; }
-        #main-window .window-header { cursor: default; }
-
-        .window.open { opacity: 1; transform: scale(1); }
-        .window.closing { opacity: 0; transform: scale(0.7); }
-
-        .window-header {
-            padding: 0.5rem 1rem;
-            color: var(--text-color-bold);
-            font-weight: 700;
-            cursor: move;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--header-main-bg);
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-
-        .window[data-theme="about"] .window-header { background-color: var(--header-about-bg); }
-        .window[data-theme="projects"] .window-header { background-color: var(--header-projects-bg); }
-        .window[data-theme="contact"] .window-header { background-color: var(--header-contact-bg); }
-
-        .accent { transition: color 0.4s ease; }
-        .window[data-theme="about"] .accent { color: var(--accent-about); }
-        .window[data-theme="projects"] .accent { color: var(--accent-projects); }
-        .window[data-theme="contact"] .accent { color: var(--accent-contact); }
-
-        .project-card {
-            background-color: var(--project-card-bg);
-            transition: background-color 0.4s ease;
-        }
-
-        .window-controls { display: flex; gap: 0.5rem; }
-
-        .control-btn {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 9999px;
-            cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s;
-        }
-
-        .close-btn { background-color: #ff8989; }
-        .close-btn:hover { background-color: #ff6f6f; }
-        .close-btn svg { stroke: #4a0e0e; transition: transform 0.2s; }
-        .close-btn:hover svg { transform: rotate(90deg); }
-        
-        .window-body {
-            padding: 1rem;
-            height: calc(100% - 2.75rem);
-            overflow-y: auto;
-            color: var(--text-color);
-            transition: color 0.4s ease;
-        }
-
-        /* Themed Scrollbar */
-        .window-body::-webkit-scrollbar { width: 8px; }
-        .window-body::-webkit-scrollbar-track { background: var(--scrollbar-track-bg); border-radius: 10px; }
-        .window-body::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-bg); border-radius: 10px; }
-        .window-body::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover-bg); }
-        
-        #main-window .icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100px;
-        }
-
-        #main-window .icon i {
-            font-size: 52px;
-            line-height: 1;
-        }
-        
-        #main-window .icon p {
-            color: var(--text-color-bold);
-            transition: color 0.4s ease;
-        }
-        
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div class="theme-toggle" id="theme-toggle">
@@ -230,158 +22,100 @@
         <i class='bx bxs-moon moon-icon' id="moon-icon"></i>
     </div>
 
-    <div id="main-window" class="window open" style="top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); opacity: 1; min-width: 480px; min-height: 250px;"><div class="window-header select-none"><span>Welcome!</span></div><div class="window-body flex items-center justify-center gap-8">
-        <div id="open-about" class="icon p-4 rounded-lg cursor-pointer">
-            <i class='bx bxs-user-circle' style='color:#60d394;'></i>
-            <p class="mt-2 text-sm font-bold text-center">About Me</p>
+    <div id="main-window" class="window open"
+        style="top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); opacity: 1; min-width: 480px; min-height: 250px;">
+        <div class="window-header select-none"><span>Welcome!</span></div>
+        <div class="window-body flex items-center justify-center gap-8">
+
+            <div id="open-about" class="icon p-4 rounded-lg cursor-pointer">
+                <i class='bx bxs-user-circle' style='color:#60d394;'></i>
+                <p class="mt-2 text-sm font-bold text-center">About Me</p>
+            </div>
+
+            <div id="open-projects" class="icon p-4 rounded-lg cursor-pointer">
+                <i class='bx bxs-briefcase-alt-2' style='color:#ffb347;'></i>
+                <p class="mt-2 text-sm font-bold text-center">My Projects</p>
+            </div>
+
+            <div id="open-contact" class="icon p-4 rounded-lg cursor-pointer">
+                <i class='bx bxs-envelope' style='color:#89cff0;'></i>
+                <p class="mt-2 text-sm font-bold text-center">Contact</p>
+            </div>
+
         </div>
-        <div id="open-projects" class="icon p-4 rounded-lg cursor-pointer">
-            <i class='bx bxs-briefcase-alt-2' style='color:#ffb347;'></i>
-            <p class="mt-2 text-sm font-bold text-center">My Projects</p>
+    </div>
+
+
+    <template id="template-about">
+        <div class="window" data-theme="about" id="window-about"
+            style="width: 400px; height: 350px; top: 20%; left: 30%;">
+            <div class="window-header"><span>About Me</span>
+                <div class="window-controls">
+                    <div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg></div>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2 class="text-xl font-bold mb-4 accent">Hello, I'm DarkEmperium! ☆</h2>
+                <p class="mb-2">A passionate developer...</p>
+            </div>
         </div>
-        <div id="open-contact" class="icon p-4 rounded-lg cursor-pointer">
-            <i class='bx bxs-envelope' style='color:#89cff0;'></i>
-            <p class="mt-2 text-sm font-bold text-center">Contact</p>
+    </template>
+    <template id="template-projects">
+        <div class="window" data-theme="projects" id="window-projects"
+            style="width: 550px; height: 450px; top: 25%; left: 50%;">
+            <div class="window-header"><span>My Projects</span>
+                <div class="window-controls">
+                    <div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg></div>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2 class="text-xl font-bold mb-4 accent">Portfolio Showcase ✿</h2>
+                <div id="projects-container" class="space-y-4">
+                    <div>Loading projects...</div>
+                </div>
+            </div>
         </div>
-    </div></div>
-    
-    <template id="template-about"><div class="window" data-theme="about" id="window-about" style="width: 400px; height: 350px; top: 20%; left: 30%;"><div class="window-header"><span>About Me</span><div class="window-controls"><div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div></div></div><div class="window-body"><h2 class="text-xl font-bold mb-4 accent">Hello, I'm DarkEmperium! ☆</h2><p class="mb-2">A passionate developer...</p></div></div></template>
-    <template id="template-projects"><div class="window" data-theme="projects" id="window-projects" style="width: 550px; height: 450px; top: 25%; left: 50%;"><div class="window-header"><span>My Projects</span><div class="window-controls"><div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div></div></div><div class="window-body"><h2 class="text-xl font-bold mb-4 accent">Portfolio Showcase ✿</h2><div id="projects-container" class="space-y-4"><div>Loading projects...</div></div></div></div></template>
-    <template id="template-contact"><div class="window" data-theme="contact" id="window-contact" style="width: 400px; height: 300px; top: 40%; left: 40%;"><div class="window-header"><span>Get In Touch</span><div class="window-controls"><div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div></div></div><div class="window-body"><h2 class="text-xl font-bold mb-4 accent">Contact Me! ♡</h2><p class="mb-4">I'm always open to discussing new projects...</p><div class="space-y-2"><p><strong>Email:</strong> <a href="mailto:email@example.com" class="accent font-semibold hover:underline">jundechua2003@gmail.com</a></p><p><strong>LinkedIn:</strong> <a href="#" target="_blank" class="accent font-semibold hover:underline">linkedin.com/in/yourprofile</a></p><p><strong>GitHub:</strong> <a href="https://github.com/DarkEmperium" target="_blank" class="accent font-semibold hover:underline">github.com/DarkEmperium</a></p></div></div></div></template>
+    </template>
+    <template id="template-contact">
+        <div class="window" data-theme="contact" id="window-contact"
+            style="width: 400px; height: 300px; top: 40%; left: 40%;">
+            <div class="window-header"><span>Get In Touch</span>
+                <div class="window-controls">
+                    <div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg></div>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2 class="text-xl font-bold mb-4 accent">Contact Me! ♡</h2>
+                <p class="mb-4">I'm always open to discussing new projects...</p>
+                <div class="space-y-2">
+                    <p><strong>Email:</strong> <a href="mailto:email@example.com"
+                            class="accent font-semibold hover:underline">jundechua2003@gmail.com</a></p>
+                    <p><strong>LinkedIn:</strong> <a href="#" target="_blank"
+                            class="accent font-semibold hover:underline">linkedin.com/in/yourprofile</a></p>
+                    <p><strong>GitHub:</strong> <a href="https://github.com/DarkEmperium" target="_blank"
+                            class="accent font-semibold hover:underline">github.com/DarkEmperium</a></p>
+                </div>
+            </div>
+        </div>
+    </template>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+    <script src="script.js"></script>
 
-            const root = document.documentElement;
-            const themeToggle = document.getElementById('theme-toggle');
-
-            themeToggle.addEventListener('click', (e) => {
-                e.stopPropagation(); 
-                root.classList.toggle('dark');
-            });
-
-            // --- Sound Effect ---
-            let synth;
-            function initAudio() { if (!synth) { synth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.05, sustain: 0, release: 0.1 } }).toDestination(); } }
-            function playClickSound() { initAudio(); synth.triggerAttackRelease('A5', '16n'); }
-            
-            document.querySelectorAll('.icon, .theme-toggle').forEach(el => {
-                el.addEventListener('mousedown', (e) => e.stopPropagation());
-                el.addEventListener('click', playClickSound);
-            });
-
-            // --- GitHub Repo Fetching ---
-            async function fetchRepos(container) {
-                const username = 'DarkEmperium';
-                try {
-                    const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated`);
-                    if (!response.ok) {
-                        throw new Error(`GitHub API Error: ${response.status}`);
-                    }
-                    const repos = await response.json();
-
-                    container.innerHTML = ''; // Clear loading message
-                    repos.forEach(repo => {
-                        const repoCard = document.createElement('div');
-                        repoCard.className = 'p-3 rounded-xl project-card';
-                        repoCard.innerHTML = `
-                            <h3 class="font-bold text-lg">${repo.name}</h3>
-                            <p class="text-sm mt-1">${repo.description || 'No description available.'}</p>
-                            <a href="${repo.html_url}" target="_blank" class="accent text-sm font-bold hover:underline mt-2 inline-block">View on GitHub &rarr;</a>
-                        `;
-                        container.appendChild(repoCard);
-                    });
-                } catch (error) {
-                    container.innerHTML = `<div class="p-3 rounded-xl project-card">Could not fetch projects. ${error.message}</div>`;
-                }
-            }
-
-            // --- Window Management (Final Robust Version) ---
-            let highestZIndex = 10;
-            
-            function makeDraggable(windowEl) {
-                if(windowEl.id === 'main-window') return;
-                const header = windowEl.querySelector('.window-header');
-                
-                header.addEventListener('mousedown', (e) => {
-                    if (e.target.closest('.control-btn')) return;
-                    e.preventDefault();
-                    
-                    let draggedElement = windowEl;
-                    let offsetX = e.clientX - draggedElement.offsetLeft;
-                    let offsetY = e.clientY - draggedElement.offsetTop;
-                    
-                    highestZIndex++;
-                    draggedElement.style.zIndex = highestZIndex;
-                    draggedElement.style.transition = 'none';
-                    document.body.style.userSelect = 'none';
-                    
-                    function onMouseMove(moveEvent) {
-                        moveEvent.preventDefault();
-                        
-                        draggedElement.style.left = `${moveEvent.clientX - offsetX}px`;
-                        draggedElement.style.top = `${moveEvent.clientY - offsetY}px`;
-                    }
-
-                    function onMouseUp() {
-                        if (draggedElement) {
-                            draggedElement.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                            document.body.style.userSelect = 'auto';
-                        }
-                        document.removeEventListener('mousemove', onMouseMove);
-                        document.removeEventListener('mouseup', onMouseUp);
-                    }
-
-                    document.addEventListener('mousemove', onMouseMove);
-                    document.addEventListener('mouseup', onMouseUp);
-                });
-            }
-
-            function openWindow(templateId) {
-                const windowId = `window-${templateId.replace('template-', '')}`;
-                const existingWindow = document.getElementById(windowId);
-
-                if (existingWindow) {
-                    existingWindow.classList.remove('shake');
-                    void existingWindow.offsetWidth; 
-                    existingWindow.classList.add('shake');
-                    return;dddd
-                }
-
-                const template = document.getElementById(templateId);
-                if (!template) return;
-                const windowNode = template.content.firstElementChild.cloneNode(true);
-                
-                highestZIndex++;
-                windowNode.style.zIndex = highestZIndex;
-
-                document.body.appendChild(windowNode);
-                requestAnimationFrame(() => { windowNode.classList.add('open'); });
-                makeDraggable(windowNode);
-
-                // If it's the projects window, fetch repos
-                if (windowId === 'window-projects') {
-                    const projectsContainer = windowNode.querySelector('#projects-container');
-                    fetchRepos(projectsContainer);
-                }
-                
-                const closeBtn = windowNode.querySelector('.close-btn');
-                closeBtn.addEventListener('mousedown', (e) => e.stopPropagation());
-                closeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    playClickSound();
-                    windowNode.classList.add('closing');
-                    windowNode.classList.remove('open');
-                    windowNode.addEventListener('transitionend', () => { windowNode.remove(); }, { once: true });
-                });
-            }
-
-            document.getElementById('open-about').addEventListener('click', () => openWindow('template-about'));
-            document.getElementById('open-projects').addEventListener('click', () => openWindow('template-projects'));
-            document.getElementById('open-contact').addEventListener('click', () => openWindow('template-contact'));
-            
-            document.getElementById('main-window').style.zIndex = 5;
-        });
-    </script>
 </body>
+
 </html>
