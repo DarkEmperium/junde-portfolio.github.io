@@ -17,9 +17,15 @@
 
 <body>
 
-    <div class="theme-toggle" id="theme-toggle">
-        <i class='bx bxs-sun sun-icon' id="sun-icon"></i>
-        <i class='bx bxs-moon moon-icon' id="moon-icon"></i>
+    <div class="top-right-controls">
+        <div class="theme-toggle" id="theme-toggle">
+            <i class='bx bxs-sun sun-icon' id="sun-icon"></i>
+            <i class='bx bxs-moon moon-icon' id="moon-icon"></i>
+        </div>
+        <div class="music-toggle muted" id="music-toggle">
+            <i class='bx bxs-volume-full music-on-icon'></i>
+            <i class='bx bxs-volume-mute music-off-icon'></i>
+        </div>
     </div>
 
     <div id="main-window" class="window open"
@@ -113,6 +119,11 @@
             </div>
         </div>
     </template>
+
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <script src="script.js"></script>
 

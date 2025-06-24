@@ -2,10 +2,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const root = document.documentElement;
     const themeToggle = document.getElementById('theme-toggle');
+    const musicToggle = document.getElementById('music-toggle');
+    const backgroundMusic = document.getElementById('background-music');
+    
+    // This variable now correctly reflects the initial state set in the HTML
+    let isMusicPlaying = false;
+
 
     themeToggle.addEventListener('click', (e) => {
         e.stopPropagation();
         root.classList.toggle('dark');
+    });
+    
+    // --- Background Music Toggle (FIXED & ROBUST) ---
+    musicToggle.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event from bubbling up
+
+        // On the first click, Tone.start() is essential to unblock the browser's audio context
+        Tone.start(); 
+        
+        isMusicPlaying = !isMusicPlaying;
+
+        if (isMusicPlaying) {
+            musicToggle.classList.remove('muted');
+            // .play() returns a Promise. We should handle it correctly.
+            const playPromise = backgroundMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.error("Music playback was prevented.", error);
+                    // If playback fails, reset the state
+                    isMusicPlaying = false;
+                    musicToggle.classList.add('muted');
+                });
+            }
+        } else {
+            musicToggle.classList.add('muted');
+            backgroundMusic.pause();
+        }
     });
 
     // --- Sound Effect ---
@@ -13,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initAudio() { if (!synth) { synth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.05, sustain: 0, release: 0.1 } }).toDestination(); } }
     function playClickSound() { initAudio(); synth.triggerAttackRelease('A5', '16n'); }
 
-    document.querySelectorAll('.icon, .theme-toggle').forEach(el => {
+    document.querySelectorAll('.icon, .theme-toggle, .music-toggle').forEach(el => {
         el.addEventListener('mousedown', (e) => e.stopPropagation());
         el.addEventListener('click', playClickSound);
     });
