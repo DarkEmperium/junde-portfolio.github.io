@@ -12,10 +12,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Boxicons CDN -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+    <audio id="background-music" loop>
+        <source src="assets/audio/bgm2.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="click-sound">
+        <source src="assets/audio/click-sound.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
 
     <div class="top-right-controls">
         <div class="theme-toggle" id="theme-toggle">
@@ -50,7 +61,6 @@
 
         </div>
     </div>
-
 
     <template id="template-about">
         <div class="window" data-theme="about" id="window-about"
@@ -119,11 +129,6 @@
             </div>
         </div>
     </template>
-
-    <audio id="background-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
 
     <script src="script.js"></script>
 

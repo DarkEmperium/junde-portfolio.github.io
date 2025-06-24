@@ -42,9 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Sound Effect ---
-    let synth;
-    function initAudio() { if (!synth) { synth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.05, sustain: 0, release: 0.1 } }).toDestination(); } }
-    function playClickSound() { initAudio(); synth.triggerAttackRelease('A5', '16n'); }
+    function playClickSound() {
+        const clickSound = document.getElementById('click-sound');
+        clickSound.currentTime = 0; // Reset to the start for rapid clicks
+        clickSound.play();
+    }
 
     document.querySelectorAll('.icon, .theme-toggle, .music-toggle').forEach(el => {
         el.addEventListener('mousedown', (e) => e.stopPropagation());
@@ -100,8 +102,21 @@ document.addEventListener('DOMContentLoaded', () => {
             function onMouseMove(moveEvent) {
                 moveEvent.preventDefault();
 
-                draggedElement.style.left = `${moveEvent.clientX - offsetX}px`;
-                draggedElement.style.top = `${moveEvent.clientY - offsetY}px`;
+                // Restrict dragging within the viewport
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                const elementWidth = draggedElement.offsetWidth;
+                const elementHeight = draggedElement.offsetHeight;
+
+                let newLeft = moveEvent.clientX - offsetX;
+                let newTop = moveEvent.clientY - offsetY;
+
+                // Prevent dragging out of bounds
+                newLeft = Math.max(0, Math.min(viewportWidth - elementWidth, newLeft));
+                newTop = Math.max(0, Math.min(viewportHeight - elementHeight, newTop));
+
+                draggedElement.style.left = `${newLeft}px`;
+                draggedElement.style.top = `${newTop}px`;
             }
 
             function onMouseUp() {
@@ -126,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             existingWindow.classList.remove('shake');
             void existingWindow.offsetWidth;
             existingWindow.classList.add('shake');
-            return; dddd
+            return;
         }
 
         const template = document.getElementById(templateId);
@@ -162,4 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('open-contact').addEventListener('click', () => openWindow('template-contact'));
 
     document.getElementById('main-window').style.zIndex = 5;
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const currentYear = new Date().getFullYear();
+    document.getElementById('currentYear').textContent = currentYear;
 });
