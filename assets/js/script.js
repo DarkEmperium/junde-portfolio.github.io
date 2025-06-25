@@ -3,34 +3,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const root = document.documentElement;
     const themeToggle = document.getElementById('theme-toggle');
     const musicToggle = document.getElementById('music-toggle');
+    const lightModeSound = document.getElementById('light-mode-sound');
+    const darkModeSound = document.getElementById('dark-mode-sound');
     const backgroundMusic = document.getElementById('background-music');
     
-    // This variable now correctly reflects the initial state set in the HTML
     let isMusicPlaying = false;
-
 
     themeToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        root.classList.toggle('dark');
-    });
-    
-    // --- Background Music Toggle (FIXED & ROBUST) ---
-    musicToggle.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent event from bubbling up
 
-        // On the first click, Tone.start() is essential to unblock the browser's audio context
+        root.classList.toggle('dark');
+
+        if (root.classList.contains('dark')) {
+            if (darkModeSound) {
+                darkModeSound.currentTime = 0;
+                darkModeSound.play();
+            }
+        } else {
+            if (lightModeSound) {
+                lightModeSound.currentTime = 0;
+                lightModeSound.play();
+            }
+        }
+    });
+
+    musicToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         Tone.start(); 
         
         isMusicPlaying = !isMusicPlaying;
 
         if (isMusicPlaying) {
             musicToggle.classList.remove('muted');
-            // .play() returns a Promise. We should handle it correctly.
             const playPromise = backgroundMusic.play();
             if (playPromise !== undefined) {
                 playPromise.catch(error => {
                     console.error("Music playback was prevented.", error);
-                    // If playback fails, reset the state
                     isMusicPlaying = false;
                     musicToggle.classList.add('muted');
                 });
@@ -41,19 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Sound Effect ---
     function playClickSound() {
         const clickSound = document.getElementById('click-sound');
-        clickSound.currentTime = 0; // Reset to the start for rapid clicks
+        clickSound.currentTime = 0;
         clickSound.play();
     }
 
-    document.querySelectorAll('.icon, .theme-toggle, .music-toggle').forEach(el => {
+    document.querySelectorAll('.icon, .music-toggle').forEach(el => {
         el.addEventListener('mousedown', (e) => e.stopPropagation());
         el.addEventListener('click', playClickSound);
     });
 
-    // --- GitHub Repo Fetching ---
     async function fetchRepos(container) {
         const username = 'DarkEmperium';
         try {
@@ -63,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const repos = await response.json();
 
-            container.innerHTML = ''; // Clear loading message
+            container.innerHTML = '';
             repos.forEach(repo => {
                 const repoCard = document.createElement('div');
                 repoCard.className = 'p-3 rounded-xl project-card';
@@ -79,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Window Management (Final Robust Version) ---
     let highestZIndex = 10;
 
     function makeDraggable(windowEl) {
@@ -102,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
             function onMouseMove(moveEvent) {
                 moveEvent.preventDefault();
 
-                // Restrict dragging within the viewport
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
                 const elementWidth = draggedElement.offsetWidth;
@@ -111,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 let newLeft = moveEvent.clientX - offsetX;
                 let newTop = moveEvent.clientY - offsetY;
 
-                // Prevent dragging out of bounds
                 newLeft = Math.max(0, Math.min(viewportWidth - elementWidth, newLeft));
                 newTop = Math.max(0, Math.min(viewportHeight - elementHeight, newTop));
 
@@ -155,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(() => { windowNode.classList.add('open'); });
         makeDraggable(windowNode);
 
-        // If it's the FAQ window, setup the accordion
         if (windowId === 'window-faq') {
             const faqQuestions = windowNode.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
@@ -172,7 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // If it's the projects window, fetch repos
         if (windowId === 'window-projects') {
             const projectsContainer = windowNode.querySelector('#projects-container');
             fetchRepos(projectsContainer);
