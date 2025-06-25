@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Boxicons CDN -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -40,10 +39,24 @@
     </div>
 
     <div id="main-window" class="window open"
-        style="top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); opacity: 1; min-width: 480px; min-height: 250px;">
-        <div class="window-header select-none"><span>Welcome!</span></div>
-        <div class="window-body flex items-center justify-center gap-8">
+     style="top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); opacity: 1; width: 90%; max-width: 700px; min-height: 400px;">
+    <div class="window-header select-none"><span>Home</span></div>
+    <div class="window-body flex flex-col items-center justify-center gap-4 p-8">
+        
+        <div class="text-center mb-4 intro-text">
+            <h1 class="font-bold tracking-tight">
+                <span class="block text-4xl" style="color: var(--text-color-bold);">Bonjour,</span>
+                <span class="block text-6xl mt-1" style="color: var(--accent-projects);">I'm Chua</span>
+            </h1>
 
+            <div class="flex justify-center items-center gap-3 mt-6 flex-wrap">
+                <span class="role-tag text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md" style="background-color: var(--accent-about);">System Administrator</span>
+                <span class="role-tag text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md" style="background-color: var(--accent-projects);">Web Developer</span>
+                <span class="role-tag text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md" style="background-color: var(--accent-contact);">Computer Technician</span>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-center flex-wrap gap-8 mt-4">
             <div id="open-about" class="icon p-4 rounded-lg cursor-pointer">
                 <i class='bx bxs-user-circle' style='color:#60d394;'></i>
                 <p class="mt-2 text-sm font-bold text-center">About Me</p>
@@ -59,12 +72,23 @@
                 <p class="mt-2 text-sm font-bold text-center">Contact</p>
             </div>
 
+            <div id="open-faq" class="icon p-4 rounded-lg cursor-pointer">
+                <i class='bx bxs-help-circle' style='color:#f368e0;'></i>
+                <p class="mt-2 text-sm font-bold text-center">FAQ</p>
+            </div>
+
+            <div id="open-downloads" class="icon p-4 rounded-lg cursor-pointer">
+                <i class='bx bxs-download' style='color:#ff7f50;'></i>
+                <p class="mt-2 text-sm font-bold text-center">Downloads</p>
+            </div>
         </div>
+
     </div>
+</div>
 
     <template id="template-about">
         <div class="window" data-theme="about" id="window-about"
-            style="width: 400px; height: 350px; top: 20%; left: 30%;">
+            style="width: 450px; height: 550px; top: 15%; left: 30%;">
             <div class="window-header"><span>About Me</span>
                 <div class="window-controls">
                     <div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
@@ -76,8 +100,60 @@
                 </div>
             </div>
             <div class="window-body">
-                <h2 class="text-xl font-bold mb-4 accent">Hello, I'm DarkEmperium! ☆</h2>
-                <p class="mb-2">A passionate developer...</p>
+                <div class="flex items-center mb-4">
+                    <img src="assets/image/profile.png" alt="Profile Picture" class="profile-picture w-24 h-24 rounded-full mr-4">
+                    <div>
+                        <h2 class="text-xl font-bold accent">Hello, I'm Chua Jun De !</h2>
+                        <p class="text-sm">A Passionate Developer ...</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-2 accent">About Me</h3>
+                    <p class="text-sm mb-4">I am a driven and enthusiastic student from Malaysia with a deep passion for web development and programming. My journey into the world of coding began with a fascination for how websites worked, which quickly evolved into a dedicated pursuit of building my own applications. I thrive on challenges and am constantly seeking to expand my knowledge and skills in this ever-evolving field. When I'm not coding, I enjoy exploring new technologies and contributing to open-source projects.</p>
+
+                    <h3 class="font-bold text-lg mb-2 accent">Interests</h3>
+                    <ul class="list-disc list-inside text-sm mb-4">
+                        <li>Web Development</li>
+                        <li>Open Source Projects</li>
+                        <li>Gaming</li>
+                        <li>Anime</li>
+                        <li>Machine Learning</li>
+                    </ul>
+
+                    <h3 class="font-bold text-lg mb-3 accent">Education</h3>
+                    <div class="space-y-4">
+                    
+                        <div class="flex items-start">
+                            <div class="mt-1 mr-3">
+                                <i class='bx bxs-graduation accent' style='font-size: 1.25rem;'></i>
+                            </div>
+                            <div>
+                                <p class="font-bold" style="color: var(--text-color-bold);">Diploma in Information Technology</p>
+                                <p class="text-sm">University of Wollongong Malaysia</p>
+                                <p class="text-xs opacity-75 mt-1">2023 - 2025</p>
+                            </div>
+                        </div>
+                    
+                        <div class="flex items-start">
+                            <div class="mt-1 mr-3">
+                                <i class='bx bxs-certification accent' style='font-size: 1.25rem;'></i>
+                            </div>
+                            <div>
+                                <p class="font-bold" style="color: var(--text-color-bold);">SKM in Computer System Operation</p>
+                                <p class="text-sm">ITPA Penang</p>
+                                <p class="text-xs opacity-75 mt-1">2022 - 2023</p>
+                            </div>
+                        </div>
+                    
+                    </div>
+
+                    <h3 class="font-bold text-lg mb-2 accent">Languages</h3>
+                    <ul class="list-disc list-inside text-sm">
+                        <li>English</li>
+                        <li>Mandarin</li>
+                        <li>Malay</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </template>
@@ -97,7 +173,7 @@
             <div class="window-body">
                 <h2 class="text-xl font-bold mb-4 accent">Portfolio Showcase ✿</h2>
                 <div id="projects-container" class="space-y-4">
-                    <div>Loading projects...</div>
+                    <div>Loading Projects ...</div>
                 </div>
             </div>
         </div>
@@ -125,6 +201,81 @@
                             class="accent font-semibold hover:underline">linkedin.com/in/chua-jun-de</a></p>
                     <p><strong>GitHub:</strong> <a href="https://github.com/DarkEmperium" target="_blank"
                             class="accent font-semibold hover:underline">github.com/DarkEmperium</a></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-faq">
+        <div class="window" data-theme="faq" id="window-faq"
+            style="width: 500px; height: auto; max-height: 80vh; top: 35%; left: 35%;">
+            <div class="window-header"><span>FAQ</span>
+                <div class="window-controls">
+                    <div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg></div>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2 class="text-xl font-bold mb-4 accent">Frequently Asked Questions ❀</h2>
+                <div class="space-y-2 faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>What are your main skills ?</span>
+                            <i class='bx bx-chevron-down faq-icon'></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>I specialize in front-end development with a focus on creating interactive and user-friendly
+                                web experiences. I'm proficient in HTML, CSS, JavaScript, and have experience with
+                                frameworks like BootStrap and Tailwind CSS</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Are you available for freelance work ?</span>
+                            <i class='bx bx-chevron-down faq-icon'></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>I'm currently focused on my studies, but I'm open to discussing small projects or
+                                collaborations. Feel free to reach out via the contact form!</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>What are you passionate about ?</span>
+                            <i class='bx bx-chevron-down faq-icon'></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>I'm passionate about open-source software, video games, and creating beautiful and functional
+                                websites. I'm always eager to learn new things and take on new challenges.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-downloads">
+        <div class="window" data-theme="downloads" id="window-downloads"
+            style="width: 400px; height: 300px; top: 45%; left: 45%;">
+            <div class="window-header"><span>Downloads</span>
+                <div class="window-controls">
+                    <div class="control-btn close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg></div>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2 class="text-xl font-bold mb-4 accent">Downloads & Extras ❃</h2>
+                <p>Here are some things I've made that you can download and use for free!</p>
+                <div class="space-y-2 mt-4">
+                    <a href="#" class="accent font-semibold hover:underline">Coming soon...</a>
                 </div>
             </div>
         </div>

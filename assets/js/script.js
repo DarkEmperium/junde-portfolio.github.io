@@ -155,6 +155,23 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(() => { windowNode.classList.add('open'); });
         makeDraggable(windowNode);
 
+        // If it's the FAQ window, setup the accordion
+        if (windowId === 'window-faq') {
+            const faqQuestions = windowNode.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    question.classList.toggle('active');
+
+                    if (question.classList.contains('active')) {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    } else {
+                        answer.style.maxHeight = null;
+                    }
+                });
+            });
+        }
+
         // If it's the projects window, fetch repos
         if (windowId === 'window-projects') {
             const projectsContainer = windowNode.querySelector('#projects-container');
@@ -175,6 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('open-about').addEventListener('click', () => openWindow('template-about'));
     document.getElementById('open-projects').addEventListener('click', () => openWindow('template-projects'));
     document.getElementById('open-contact').addEventListener('click', () => openWindow('template-contact'));
+    document.getElementById('open-faq').addEventListener('click', () => openWindow('template-faq'));
+    document.getElementById('open-downloads').addEventListener('click', () => openWindow('template-downloads'));
 
     document.getElementById('main-window').style.zIndex = 5;
 });
@@ -183,3 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentYear = new Date().getFullYear();
     document.getElementById('currentYear').textContent = currentYear;
 });
+
+document.getElementById('open-faq').addEventListener('click', () => openWindow('template-faq'));
+document.getElementById('open-downloads').addEventListener('click', () => openWindow('template-downloads'));
