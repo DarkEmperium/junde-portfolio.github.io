@@ -6,8 +6,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightModeSound = document.getElementById('light-mode-sound');
     const darkModeSound = document.getElementById('dark-mode-sound');
     const backgroundMusic = document.getElementById('background-music');
-    
+
+    lightModeSound.volume = 0.1;
+    darkModeSound.volume = 0.1;
     let isMusicPlaying = false;
+
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+        root.classList.add('dark');
+    } else {
+        root.classList.remove('dark');
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (e.matches) {
+            root.classList.add('dark');
+        } else {
+            root.classList.remove('dark');
+        }
+    });
 
     themeToggle.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -53,6 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const clickSound = document.getElementById('click-sound');
         clickSound.currentTime = 0;
         clickSound.play();
+    }
+
+    function playFlipSound() {
+        const flipSound = document.getElementById('flip-sound');
+        flipSound.currentTime = 0;
+        flipSound.play();
     }
 
     function copyToClipboard(text, element) {
@@ -181,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const faqQuestions = windowNode.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
                 question.addEventListener('click', () => {
-                    playClickSound();
+                    playFlipSound();
                     const answer = question.nextElementSibling;
                     question.classList.toggle('active');
 
