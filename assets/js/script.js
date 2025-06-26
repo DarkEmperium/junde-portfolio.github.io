@@ -55,6 +55,17 @@ document.addEventListener('DOMContentLoaded', () => {
         clickSound.play();
     }
 
+    function copyToClipboard(text, element) {
+        navigator.clipboard.writeText(text).then(() => {
+            element.classList.add('copied');
+            setTimeout(() => {
+                element.classList.remove('copied');
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed To Copy : ', err);
+        });
+    }
+
     document.querySelectorAll('.icon, .music-toggle').forEach(el => {
         el.addEventListener('mousedown', (e) => e.stopPropagation());
         el.addEventListener('click', playClickSound);
@@ -96,13 +107,21 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             let draggedElement = windowEl;
-            let offsetX = e.clientX - draggedElement.offsetLeft;
-            let offsetY = e.clientY - draggedElement.offsetTop;
+            
+            const rect = draggedElement.getBoundingClientRect();
+
+            let offsetX = e.clientX - rect.left;
+            let offsetY = e.clientY - rect.top;
 
             highestZIndex++;
             draggedElement.style.zIndex = highestZIndex;
             draggedElement.style.transition = 'none';
             document.body.style.userSelect = 'none';
+
+            draggedElement.style.left = rect.left + 'px';
+            draggedElement.style.top = rect.top + 'px';
+            draggedElement.style.transform = 'none';
+
 
             function onMouseMove(moveEvent) {
                 moveEvent.preventDefault();
@@ -162,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const faqQuestions = windowNode.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
                 question.addEventListener('click', () => {
+                    playClickSound();
                     const answer = question.nextElementSibling;
                     question.classList.toggle('active');
 
@@ -177,6 +197,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (windowId === 'window-projects') {
             const projectsContainer = windowNode.querySelector('#projects-container');
             fetchRepos(projectsContainer);
+        }
+
+        if (windowId === 'window-contact') {
+            const copyEmailLink = windowNode.querySelector('#copy-email-link');
+            if (copyEmailLink) {
+                copyEmailLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    playClickSound();
+                    const email = 'jundechua2003@gmail.com';
+                    copyToClipboard(email, copyEmailLink);
+                });
+            }
         }
 
         const closeBtn = windowNode.querySelector('.close-btn');
@@ -201,8 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     const currentYear = new Date().getFullYear();
-    document.getElementById('currentYear').textContent = currentYear;
+    const yearElement = document.getElementById('currentYear');
+    if (yearElement) {
+        yearElement.textContent = currentYear;
+    }
 });
-
-document.getElementById('open-faq').addEventListener('click', () => openWindow('template-faq'));
-document.getElementById('open-downloads').addEventListener('click', () => openWindow('template-downloads'));
