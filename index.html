@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Interactive Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
@@ -43,64 +43,57 @@
         Your browser does not support the audio element.
     </audio>
 
-    <div class="top-right-controls">
-        <div class="theme-toggle" id="theme-toggle">
-            <i class='bx bxs-sun sun-icon' id="sun-icon"></i>
-            <i class='bx bxs-moon moon-icon' id="moon-icon"></i>
-        </div>
-        <div class="music-toggle muted" id="music-toggle">
-            <i class='bx bxs-volume-full music-on-icon'></i>
-            <i class='bx bxs-volume-mute music-off-icon'></i>
-        </div>
-    </div>
-
     <div id="main-window" class="window open"
      style="top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); opacity: 1; width: 90%; max-width: 700px; min-height: 400px;">
-    <div class="window-header select-none"><span>Home</span></div>
-    <div class="window-body flex flex-col items-center justify-center gap-4 p-8">
-        
-        <div class="text-center mb-4 intro-text">
-            <h1 class="font-bold tracking-tight">
-                <span class="block text-4xl" style="color: var(--text-color-bold);">Bonjour,</span>
-                <span class="block text-6xl mt-1" style="color: var(--accent-projects);">I'm Chua</span>
-            </h1>
-
-            <div class="flex justify-center items-center gap-3 mt-6 flex-wrap">
-                <span class="role-tag role-1 text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md">System Administrator</span>
-                <span class="role-tag role-2 text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md">Web Developer</span>
-                <span class="role-tag role-3 text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md">Computer Technician</span>
+        <div class="window-header select-none">
+            <span>Home</span>
+            <div class="header-controls">
+                <div class="theme-toggle" id="theme-toggle">
+                    <i class='bx bxs-sun sun-icon' id="sun-icon"></i>
+                    <i class='bx bxs-moon moon-icon' id="moon-icon"></i>
+                </div>
+                <div class="music-toggle muted" id="music-toggle">
+                    <i class='bx bxs-volume-full music-on-icon'></i>
+                    <i class='bx bxs-volume-mute music-off-icon'></i>
+                </div>
             </div>
         </div>
-
-        <div class="flex items-center justify-center flex-wrap gap-8 mt-4">
-            <div id="open-about" class="icon p-4 rounded-lg cursor-pointer">
-                <i class='bx bxs-user-circle' style='color:#60d394;'></i>
-                <p class="mt-2 text-sm font-bold text-center">About Me</p>
+        <div class="window-body flex flex-col items-center justify-center gap-4 p-8">
+            <div class="text-center mb-4 intro-text">
+                <h1 class="font-bold tracking-tight">
+                    <span class="block text-4xl" style="color: var(--text-color-bold);">Bonjour,</span>
+                    <span class="block text-6xl mt-1" style="color: var(--accent-projects);">I'm Chua</span>
+                </h1>
+                <div class="flex justify-center items-center gap-3 mt-6 flex-wrap">
+                    <span class="role-tag role-1 text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md">System Administrator</span>
+                    <span class="role-tag role-2 text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md">Web Developer</span>
+                    <span class="role-tag role-3 text-sm font-semibold text-white px-4 py-2 rounded-full shadow-md">Computer Technician</span>
+                </div>
             </div>
-
-            <div id="open-projects" class="icon p-4 rounded-lg cursor-pointer">
-                <i class='bx bxs-briefcase-alt-2' style='color:#ffb347;'></i>
-                <p class="mt-2 text-sm font-bold text-center">My Projects</p>
-            </div>
-
-            <div id="open-contact" class="icon p-4 rounded-lg cursor-pointer">
-                <i class='bx bxs-envelope' style='color:#89cff0;'></i>
-                <p class="mt-2 text-sm font-bold text-center">Contact</p>
-            </div>
-
-            <div id="open-faq" class="icon p-4 rounded-lg cursor-pointer">
-                <i class='bx bxs-help-circle' style='color:#f368e0;'></i>
-                <p class="mt-2 text-sm font-bold text-center">FAQ</p>
-            </div>
-
-            <div id="open-downloads" class="icon p-4 rounded-lg cursor-pointer">
-                <i class='bx bxs-download' style='color:#ff7f50;'></i>
-                <p class="mt-2 text-sm font-bold text-center">Downloads</p>
+            <div class="flex items-center justify-center flex-wrap gap-8 mt-4">
+                <div id="open-about" class="icon p-4 rounded-lg cursor-pointer">
+                    <i class='bx bxs-user-circle' style='color:#60d394;'></i>
+                    <p class="mt-2 text-sm font-bold text-center">About Me</p>
+                </div>
+                <div id="open-projects" class="icon p-4 rounded-lg cursor-pointer">
+                    <i class='bx bxs-briefcase-alt-2' style='color:#ffb347;'></i>
+                    <p class="mt-2 text-sm font-bold text-center">My Projects</p>
+                </div>
+                <div id="open-contact" class="icon p-4 rounded-lg cursor-pointer">
+                    <i class='bx bxs-envelope' style='color:#89cff0;'></i>
+                    <p class="mt-2 text-sm font-bold text-center">Contact</p>
+                </div>
+                <div id="open-faq" class="icon p-4 rounded-lg cursor-pointer">
+                    <i class='bx bxs-help-circle' style='color:#f368e0;'></i>
+                    <p class="mt-2 text-sm font-bold text-center">FAQ</p>
+                </div>
+                <div id="open-downloads" class="icon p-4 rounded-lg cursor-pointer">
+                    <i class='bx bxs-download' style='color:#ff7f50;'></i>
+                    <p class="mt-2 text-sm font-bold text-center">Downloads</p>
+                </div>
             </div>
         </div>
-
     </div>
-</div>
 
     <template id="template-about">
         <div class="window" data-theme="about" id="window-about"
@@ -301,10 +294,7 @@
             <div class="window-body">
                 <h2 class="text-xl font-bold mb-4 accent">Downloads & Extras ❃</h2>
                 <p>Coming Soon ~</p>
-                <!--<div class="space-y-2 mt-4">
-                    <a href="assets/ChuaJunDe_Resume.pdf" download="ChuaJunDe_Resume.pdf" class="accent font-semibold hover:underline">Download Resume (PDF)</a>
-                </div>-->
-            </div>
+                </div>
         </div>
     </template>
 

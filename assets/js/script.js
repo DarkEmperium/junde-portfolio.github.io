@@ -28,9 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     themeToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-
         root.classList.toggle('dark');
-
         if (root.classList.contains('dark')) {
             if (darkModeSound) {
                 darkModeSound.currentTime = 0;
@@ -46,10 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     musicToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        Tone.start(); 
-        
+        Tone.start();
         isMusicPlaying = !isMusicPlaying;
-
         if (isMusicPlaying) {
             musicToggle.classList.remove('muted');
             const playPromise = backgroundMusic.play();
@@ -89,9 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.querySelectorAll('.icon, .music-toggle').forEach(el => {
+    document.querySelectorAll('.icon, .music-toggle, .theme-toggle').forEach(el => {
         el.addEventListener('mousedown', (e) => e.stopPropagation());
-        el.addEventListener('click', playClickSound);
+        if (!el.id.includes('theme-toggle')) {
+            el.addEventListener('click', playClickSound);
+        }
     });
 
     async function fetchRepos(container) {
@@ -102,16 +100,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`GitHub API Error: ${response.status}`);
             }
             const repos = await response.json();
-
             container.innerHTML = '';
             repos.forEach(repo => {
                 const repoCard = document.createElement('div');
                 repoCard.className = 'p-3 rounded-xl project-card';
                 repoCard.innerHTML = `
-                            <h3 class="font-bold text-lg">${repo.name}</h3>
-                            <p class="text-sm mt-1">${repo.description || 'No description available.'}</p>
-                            <a href="${repo.html_url}" target="_blank" class="accent text-sm font-bold hover:underline mt-2 inline-block">View on GitHub &rarr;</a>
-                        `;
+                    <h3 class="font-bold text-lg">${repo.name}</h3>
+                    <p class="text-sm mt-1">${repo.description || 'No description available.'}</p>
+                    <a href="${repo.html_url}" target="_blank" class="accent text-sm font-bold hover:underline mt-2 inline-block">View on GitHub &rarr;</a>
+                `;
                 container.appendChild(repoCard);
             });
         } catch (error) {
@@ -120,19 +117,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let highestZIndex = 10;
+    const draggableWindows = new Set();
 
     function makeDraggable(windowEl) {
         if (windowEl.id === 'main-window') return;
+        
         const header = windowEl.querySelector('.window-header');
+        if (header.dataset.draggable === 'true') return;
+
+        header.dataset.draggable = 'true';
+        draggableWindows.add(header);
 
         header.addEventListener('mousedown', (e) => {
+            if (window.innerWidth <= 768) return;
             if (e.target.closest('.control-btn')) return;
             e.preventDefault();
 
             let draggedElement = windowEl;
-            
             const rect = draggedElement.getBoundingClientRect();
-
             let offsetX = e.clientX - rect.left;
             let offsetY = e.clientY - rect.top;
 
@@ -140,39 +142,32 @@ document.addEventListener('DOMContentLoaded', () => {
             draggedElement.style.zIndex = highestZIndex;
             draggedElement.style.transition = 'none';
             document.body.style.userSelect = 'none';
-
             draggedElement.style.left = rect.left + 'px';
             draggedElement.style.top = rect.top + 'px';
             draggedElement.style.transform = 'none';
 
-
             function onMouseMove(moveEvent) {
                 moveEvent.preventDefault();
-
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
                 const elementWidth = draggedElement.offsetWidth;
                 const elementHeight = draggedElement.offsetHeight;
-
                 let newLeft = moveEvent.clientX - offsetX;
                 let newTop = moveEvent.clientY - offsetY;
-
                 newLeft = Math.max(0, Math.min(viewportWidth - elementWidth, newLeft));
                 newTop = Math.max(0, Math.min(viewportHeight - elementHeight, newTop));
-
                 draggedElement.style.left = `${newLeft}px`;
                 draggedElement.style.top = `${newTop}px`;
             }
 
             function onMouseUp() {
                 if (draggedElement) {
-                    draggedElement.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    draggedElement.style.transition = '';
                     document.body.style.userSelect = 'auto';
                 }
                 document.removeEventListener('mousemove', onMouseMove);
                 document.removeEventListener('mouseup', onMouseUp);
             }
-
             document.addEventListener('mousemove', onMouseMove);
             document.addEventListener('mouseup', onMouseUp);
         });
@@ -181,20 +176,44 @@ document.addEventListener('DOMContentLoaded', () => {
     function openWindow(templateId) {
         const windowId = `window-${templateId.replace('template-', '')}`;
         const existingWindow = document.getElementById(windowId);
-
+        
         if (existingWindow) {
-            existingWindow.classList.remove('shake');
-            void existingWindow.offsetWidth;
+            highestZIndex++;
+            existingWindow.style.zIndex = highestZIndex;
+            
+            // Prevent spam-clicking from breaking the animation
+            if (existingWindow.classList.contains('shake')) {
+                return;
+            }
+
             existingWindow.classList.add('shake');
+            
+            // Clean up the class after the animation finishes
+            existingWindow.addEventListener('animationend', () => {
+                existingWindow.classList.remove('shake');
+            }, { once: true });
+
             return;
         }
 
+        const isMobile = window.innerWidth <= 768;
         const template = document.getElementById(templateId);
         if (!template) return;
         const windowNode = template.content.firstElementChild.cloneNode(true);
+        
+        windowNode.dataset.originalStyle = windowNode.getAttribute('style') || '';
 
         highestZIndex++;
         windowNode.style.zIndex = highestZIndex;
+        windowNode.dataset.zIndex = highestZIndex;
+
+        if (isMobile) {
+            windowNode.style.top = '';
+            windowNode.style.left = '';
+            windowNode.style.width = '';
+            windowNode.style.height = '';
+            windowNode.style.transform = '';
+        }
 
         document.body.appendChild(windowNode);
         requestAnimationFrame(() => { windowNode.classList.add('open'); });
@@ -207,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     playFlipSound();
                     const answer = question.nextElementSibling;
                     question.classList.toggle('active');
-
                     if (question.classList.contains('active')) {
                         answer.style.maxHeight = answer.scrollHeight + 'px';
                     } else {
@@ -241,9 +259,26 @@ document.addEventListener('DOMContentLoaded', () => {
             playClickSound();
             windowNode.classList.add('closing');
             windowNode.classList.remove('open');
-            windowNode.addEventListener('transitionend', () => { windowNode.remove(); }, { once: true });
+            windowNode.addEventListener('animationend', () => { windowNode.remove(); }, { once: true });
         });
     }
+    
+    window.addEventListener('resize', () => {
+        const isMobile = window.innerWidth <= 768;
+        document.querySelectorAll('.window.open:not(#main-window)').forEach(win => {
+            if (isMobile) {
+                win.style.top = '';
+                win.style.left = '';
+                win.style.width = '';
+                win.style.height = '';
+                win.style.transform = '';
+            } else {
+                win.setAttribute('style', win.dataset.originalStyle || '');
+                win.style.zIndex = win.dataset.zIndex || 10;
+                makeDraggable(win);
+            }
+        });
+    });
 
     document.getElementById('open-about').addEventListener('click', () => openWindow('template-about'));
     document.getElementById('open-projects').addEventListener('click', () => openWindow('template-projects'));
@@ -252,12 +287,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('open-downloads').addEventListener('click', () => openWindow('template-downloads'));
 
     document.getElementById('main-window').style.zIndex = 5;
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const currentYear = new Date().getFullYear();
-    const yearElement = document.getElementById('currentYear');
-    if (yearElement) {
-        yearElement.textContent = currentYear;
-    }
 });

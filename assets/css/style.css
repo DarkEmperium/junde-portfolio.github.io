@@ -14,32 +14,54 @@
     }
 }
 
+/* --- Corrected Shake Animation --- */
 @keyframes shake {
-
-    10%,
-    90% {
-        transform: translate3d(-1px, 0, 0) scale(1);
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
     }
-
-    20%,
-    80% {
-        transform: translate3d(2px, 0, 0) scale(1);
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
     }
-
-    30%,
-    50%,
-    70% {
-        transform: translate3d(-4px, 0, 0) scale(1);
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
     }
-
-    40%,
-    60% {
-        transform: translate3d(4px, 0, 0) scale(1);
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
     }
 }
 
+/* --- New Bounce Animations --- */
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes bounceOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+}
+
+/* Class to apply the shake animation */
 .shake {
-    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97);
 }
 
 :root {
@@ -123,55 +145,6 @@ body {
     transition: background-color 0.4s ease;
 }
 
-.theme-toggle {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 9999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background-color: var(--toggle-bg);
-    border: 1px solid var(--window-border);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s ease;
-    overflow: hidden;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1) rotate(10deg);
-}
-
-.theme-toggle i {
-    font-size: 2rem;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    position: absolute;
-    color: var(--toggle-icon-color);
-}
-
-#sun-icon {
-    transform: translateY(0%) rotate(0deg);
-    opacity: 1;
-}
-
-#moon-icon {
-    transform: translateY(150%) rotate(45deg);
-    opacity: 0;
-}
-
-html.dark #sun-icon {
-    transform: translateY(-150%) rotate(-45deg);
-    opacity: 0;
-}
-
-html.dark #moon-icon {
-    transform: translateY(0%) rotate(0deg);
-    opacity: 1;
-}
-
 .profile-picture {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -200,7 +173,7 @@ html.dark .profile-picture:hover {
     transform-origin: center;
     opacity: 0;
     transform: scale(0.7);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Removed transition, will be handled by animation */
 }
 
 #main-window {
@@ -216,9 +189,14 @@ html.dark .profile-picture:hover {
     transform: scale(1);
 }
 
+/* Apply bounceIn animation to opening windows */
+.window.open:not(#main-window) {
+    animation: bounceIn 0.4s forwards;
+}
+
+/* Apply bounceOut animation to closing windows */
 .window.closing {
-    opacity: 0;
-    transform: scale(0.7);
+    animation: bounceOut 0.3s forwards;
 }
 
 .window-header {
@@ -387,21 +365,17 @@ html.dark .profile-picture:hover {
     transition: color 0.4s ease;
 }
 
-.top-right-controls {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+.header-controls {
     display: flex;
     gap: 0.75rem;
-    z-index: 4;
 }
 
 .theme-toggle, .music-toggle {
     position: relative;
     top: auto;
     right: auto;
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 9999px;
     display: flex;
     align-items: center;
@@ -414,12 +388,43 @@ html.dark .profile-picture:hover {
     overflow: hidden;
 }
 
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.theme-toggle i {
+    font-size: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    position: absolute;
+    color: var(--toggle-icon-color);
+}
+
+#sun-icon {
+    transform: translateY(0%) rotate(0deg);
+    opacity: 1;
+}
+
+#moon-icon {
+    transform: translateY(150%) rotate(45deg);
+    opacity: 0;
+}
+
+html.dark #sun-icon {
+    transform: translateY(-150%) rotate(-45deg);
+    opacity: 0;
+}
+
+html.dark #moon-icon {
+    transform: translateY(0%) rotate(0deg);
+    opacity: 1;
+}
+
 .music-toggle:hover {
     transform: scale(1.1) rotate(-10deg);
 }
 
 .music-toggle i {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     position: absolute;
     color: var(--toggle-icon-color);
@@ -620,4 +625,73 @@ html.dark .role-tag:hover {
     color: var(--accent-contact);
     text-decoration: none;
     font-weight: bold;
+}
+
+/* --- Mobile Optimizations --- */
+@media (max-width: 768px) {
+    #main-window {
+        width: 95% !important;
+        height: auto !important;
+        max-height: 90vh !important;
+    }
+
+    .window:not(#main-window) {
+        position: fixed !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        top: 0 !important;
+        left: 0 !important;
+        border-radius: 0 !important;
+        resize: none !important;
+        transition: none !important;
+    }
+
+    #main-window .intro-text .text-6xl {
+        font-size: 3.5rem;
+    }
+
+    #main-window .intro-text .text-4xl {
+        font-size: 2rem;
+    }
+    
+    #main-window .window-body {
+        gap: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    #main-window .intro-text .flex {
+        margin-top: 1rem;
+        gap: 0.5rem;
+    }
+
+    #main-window .role-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+        font-weight: 600;
+    }
+
+    #main-window .icon {
+        height: 70px;
+        padding: 0.5rem;
+    }
+
+    #main-window .icon i {
+        font-size: 32px;
+    }
+
+    #main-window .icon p {
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+    }
+
+    .contact-body {
+       justify-content: center;
+       padding: 1rem;
+    }
+
+    .contact-image-natural {
+        width: 150px;
+    }
 }
